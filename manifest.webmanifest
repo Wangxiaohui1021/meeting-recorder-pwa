@@ -1,0 +1,19 @@
+{
+  "name": "会议记录 · 录音纪要",
+  "short_name": "会议记录",
+  "description": "会议录音与纪要整理：录音→转写→结构化纪要（含下步建议与待办）",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1020",
+  "theme_color": "#5B5BF5",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    { "src": "app/assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "app/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "app/assets/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "app/assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
