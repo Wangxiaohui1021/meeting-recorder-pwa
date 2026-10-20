@@ -1,0 +1,3 @@
+# Railway 使用 nixpacks 构建；云端基础镜像默认无 ffmpeg，这里显式加入。
+[phases.build]
+nixPkgs = ["ffmpeg"]
