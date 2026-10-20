@@ -1,0 +1,27 @@
+# Render Blueprint —— 一键部署配置
+# 在 Render 导入本仓库后，它会按此文件自动建服务（已含 ffmpeg 安装）。
+services:
+  - type: web
+    name: meeting-recorder-pwa
+    runtime: node
+    plan: free
+    # 构建时先装 ffmpeg（ASR 需要），再 npm ci
+    buildCommand: apt-get update && apt-get install -y ffmpeg && npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: PROVIDER
+        value: iflytek
+      # 以下三项设为 sync:false，部署时由你在面板手动填写（不进代码库）
+      - key: IFLYTEK_APP_ID
+        sync: false
+      - key: IFLYTEK_API_KEY
+        sync: false
+      - key: IFLYTEK_API_SECRET
+        sync: false
+      - key: DASHSCOPE_API_KEY
+        sync: false
