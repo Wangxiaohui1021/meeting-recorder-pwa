@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#5B5BF5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="会议记录" />
+  <meta name="description" content="会议录音与纪要整理：录音→转写→结构化纪要（含下步建议与待办）" />
+  <title>会议记录</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="app/assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="app/assets/apple-touch-icon.png" />
+  <link rel="stylesheet" href="app/style.css" />
+</head>
+<body>
+  <header class="appbar">
+    <div class="appbar-title" id="appbarTitle">会议记录</div>
+  </header>
+
+  <main class="content">
+    <!-- 录音视图 -->
+    <section class="view" id="view-recorder">
+      <div class="rec-state" id="recState">准备就绪</div>
+      <div class="timer" id="timer">00:00</div>
+      <canvas class="level" id="levelMeter" width="300" height="64"></canvas>
+
+      <div class="rec-controls">
+        <button class="btn-round btn-pause" id="btnPause" hidden aria-label="暂停">
+          <span class="ico-pause"></span>
+        </button>
+        <button class="btn-round btn-stop" id="btnStop" hidden aria-label="停止">
+          <span class="ico-stop"></span>
+        </button>
+        <button class="btn-round btn-rec" id="btnRec" aria-label="开始录音">
+          <span class="ico-mic"></span>
+        </button>
+      </div>
+      <p class="hint" id="recHint">点击麦克风开始录音</p>
+    </section>
+
+    <!-- 处理中视图 -->
+    <section class="view" id="view-processing" hidden>
+      <div class="processing">
+        <div class="spinner"></div>
+        <div class="proc-status" id="procStatus">正在处理…</div>
+        <div class="proc-sub" id="procSub"></div>
+      </div>
+    </section>
+
+    <!-- 结果视图 -->
+    <section class="view" id="view-result" hidden>
+      <div class="result-head">
+        <h2 id="resultTitle">会议纪要</h2>
+        <div class="result-actions">
+          <button class="btn-sm" id="btnCopyMd">复制 Markdown</button>
+          <button class="btn-sm" id="btnExportPdf">导出 PDF</button>
+        </div>
+      </div>
+
+      <div class="card" id="cardSummary">
+        <h3>要点与决议</h3>
+        <div id="minutesSummary" class="md"></div>
+      </div>
+
+      <div class="card" id="cardActions">
+        <h3>待办事项</h3>
+        <div id="minutesActions" class="md"></div>
+      </div>
+
+      <div class="card" id="cardSuggestions">
+        <h3>下步工作建议</h3>
+        <div id="minutesSuggestions" class="md"></div>
+      </div>
+
+      <div class="card" id="cardAudio">
+        <h3>录音</h3>
+        <div id="audioWrap"></div>
+        <label class="keep-toggle">
+          <input type="checkbox" id="keepAudio" />
+          <span>保留本次录音文件</span>
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>文字实录</h3>
+        <div id="transcript" class="transcript"></div>
+      </div>
+
+      <button class="btn-primary full" id="btnBackHome">返回首页</button>
+    </section>
+
+    <!-- 历史视图 -->
+    <section class="view" id="view-history" hidden>
+      <div id="historyList" class="history-list"></div>
+      <p class="empty" id="historyEmpty">暂无记录</p>
+    </section>
+
+    <!-- 设置视图 -->
+    <section class="view" id="view-settings" hidden>
+      <div class="settings">
+        <label class="setting-row">
+          <span>打开应用自动开始录音</span>
+          <input type="checkbox" id="setAutoRec" />
+        </label>
+        <label class="setting-row">
+          <span>默认保留录音文件</span>
+          <input type="checkbox" id="setDefaultKeep" />
+        </label>
+        <label class="setting-row col">
+          <span>后端服务地址</span>
+          <input type="text" id="setApiBase" placeholder="https://your-server/api" inputmode="url" />
+        </label>
+        <div class="setting-info" id="backendInfo"></div>
+        <div class="privacy-note">
+          <strong>隐私说明：</strong>录音会在你点击「保留」上传至你配置的后端，并由后端调用云厂商（讯飞/通义）进行转写与纪要生成。
+          选择「不保留」时，转写与纪要生成完成后本地将删除音频，仅留文字。密钥仅存于后端，不会出现在本应用。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-view="recorder"><span class="tab-ico ico-mic"></span><span>录音</span></button>
+    <button class="tab" data-view="history"><span class="tab-ico ico-list"></span><span>历史</span></button>
+    <button class="tab" data-view="settings"><span class="tab-ico ico-gear"></span><span>设置</span></button>
+  </nav>
+
+  <script type="module" src="app/main.js"></script>
+</body>
+</html>
